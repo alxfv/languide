@@ -1,13 +1,27 @@
 var svg = document.getElementById('svg');
 
-var item = localStorage.getItem('languide.activeIds');
 var activeIds = [];
-if (item === null) {
-  item = '';
-} else {
-  activeIds = item.split(',')
+
+var hoverTitle = document.getElementsByClassName('hover_title')[0];
+var pageHeader = 'default';
+var settings = {};
+
+if (typeof hoverTitle !== 'undefined') {
+  pageHeader = hoverTitle.text.trim();
+
+  var item = localStorage.getItem('languide.activeIds');
+  if (item !== null) {
+    try {
+      json = JSON.parse(item);
+      settings = json;
+
+      if (typeof json[pageHeader] !== 'undefined') {
+        activeIds = json[pageHeader];
+      }
+    } catch (e) {
+    }
+  }
 }
-console.log(activeIds);
 
 //var items = document.getElementById('svg').contentDocument.querySelectorAll('path, ellipse, rect');
 //Array.from(items).forEach((item) => {
@@ -19,7 +33,7 @@ console.log(activeIds);
 
 svg.addEventListener('load', () => {
   var doc = svg.contentDocument;
-  var paths = doc.querySelectorAll('path, ellipse, rect');
+  var paths = doc.querySelectorAll('path, ellipse, rect, polygon');
 
   Array.from(paths).forEach((item) => {
     var fill = item.style['fill'];
@@ -50,13 +64,11 @@ svg.addEventListener('load', () => {
           item.style.opacity = disable ? opacity : '';
         //}
 
-        if (disable === true) {
-          item.style.top = '700px';
-        } else {
-          item.style.top = '';
-        }
-
-        console.log(item.id);
+        //if (disable === true) {
+        //  item.style.top = '700px';
+        //} else {
+        //  item.style.top = '';
+        //}
       }
     });
   }
@@ -76,7 +88,8 @@ svg.addEventListener('load', () => {
 
       setOpacity(path, disable);
 
-      localStorage.setItem('languide.activeIds', activeIds.join(','));
+      settings[pageHeader] = activeIds;
+      localStorage.setItem('languide.activeIds', JSON.stringify(settings));
 
       return false;
     }, false);
