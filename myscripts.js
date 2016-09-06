@@ -1,3 +1,6 @@
+const STORAGE_KEY = 'languide.settings';
+const DISABLED_ELEMENT_OPACITY = '0.1';
+
 var svg = document.getElementById('svg');
 
 var activeIds = [];
@@ -9,7 +12,7 @@ var settings = {};
 if (typeof hoverTitle !== 'undefined') {
   pageHeader = hoverTitle.text.trim();
 
-  var item = localStorage.getItem('languide.activeIds');
+  var item = localStorage.getItem(STORAGE_KEY);
   if (item !== null) {
     try {
       json = JSON.parse(item);
@@ -43,32 +46,19 @@ svg.addEventListener('load', () => {
 
     var opacity = item.style['opacity'];
     if (typeof opacity !== 'undefined' && opacity == '0.5') {
-      item.style['opacity'] = '0.1';
+      item.style['opacity'] = DISABLED_ELEMENT_OPACITY;
     }
   });
 
   function setOpacity(path, disable) {
     let id = path.id.match(/[0-9]+/)[0];
-    let opacity = '0.1';
     let ids = [id, id + 'a', id + 'c', id + 'd', id + 'e'];
 
     ids.forEach((id) => {
       var item = doc.getElementById(id);
       if (item !== null) {
 
-        //if (id.substr(-1) === 'e' && disable === false) {
-        //  item.style.opacity = '0.5';
-        //} else if (id.substr(-1) === 'e' && disable === true) {
-        //  item.style.opacity = '0.05';
-        //} else {
-          item.style.opacity = disable ? opacity : '';
-        //}
-
-        //if (disable === true) {
-        //  item.style.top = '700px';
-        //} else {
-        //  item.style.top = '';
-        //}
+        item.style.opacity = disable ? DISABLED_ELEMENT_OPACITY : '';
       }
     });
   }
@@ -89,7 +79,8 @@ svg.addEventListener('load', () => {
       setOpacity(path, disable);
 
       settings[pageHeader] = activeIds;
-      localStorage.setItem('languide.activeIds', JSON.stringify(settings));
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
 
       return false;
     }, false);
@@ -99,13 +90,11 @@ svg.addEventListener('load', () => {
 
   //document.getElementById('svg').contentDocument.getElementById('29').addEventListener('mouseover', (e) => {
   //  e.stopImmediatePropagation();
-  //  e.stopPropagation();
-  //  console.log('sdf');
   //});
 
   Array.from(paths).forEach((path) => {
     let id = path.id;
-    console.log(id, activeIds.includes(id));
+
     if (id !== '' && activeIds.includes(id)) {
       setOpacity(path, true);
     }
