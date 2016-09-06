@@ -1,0 +1,51 @@
+.klev-submit {
+  padding: 8px;
+  background: #e62117;
+  width: 200px;
+  color: white;
+}
+
+#klev-tags {
+  margin: 14px 0;
+}
+#klev-tags li {
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#klev-wrapper .selected {
+  background-color: #dcdcdc;
+}
+
+#klev-submit-result {
+  margin: 10px 0;
+
+  display: block;
+  unicode-bidi: embed;
+  font-family: monospace;
+  white-space: pre;
+}
+
+#klev-submit-result.fail {
+  color: #cf1107;
+}
+
+#klev-submit-result.success {
+  color: #37ae00;
+}
+
+.klev-textarea-wrappper {
+  margin-bottom: 14px;
+}
+.klev-textarea {
+  width: 100%;
+  height: 140px;
+
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+#klev-tran
